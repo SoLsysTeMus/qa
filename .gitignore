@@ -1,5 +1,7 @@
 .gradle
+sandbox/build/
 /build/
+sandbox/out/
 .idea/workspace.xml
 
 # Ignore Gradle GUI config
