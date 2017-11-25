@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 public class PointTests {
 
    @Test
-   public void distanceBetweenPossitiveAndNegativeCoordinatesPointsTest (){
+   public void distanceBetweenPositiveAndNegativeCoordinatesPointsTest (){
 
       Point point1 = new Point(3, -4);
       Point point2 = new Point(-6, 5);
@@ -13,7 +13,7 @@ public class PointTests {
    }
 
    @Test
-   public void distanceBetweenPossitiveCoordinatesPointsTest (){
+   public void distanceBetweenPositiveCoordinatesPointsTest (){
 
       Point point1 = new Point(2, 5);
       Point point2 = new Point(6, 0);
