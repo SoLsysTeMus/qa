@@ -36,16 +36,16 @@ public class GroupCreationTests {
       gotoGroupPage();
       initGroupCreation();
       fillGroupForm(new GroupData("test1", "test2", "test3"));
-      submintGroupCreation("submit");
-      returnGroupPage("group page");
+      submintGroupCreation();
+      returnGroupPage();
    }
 
-   private void returnGroupPage(String s) {
-      wd.findElement(By.linkText(s)).click();
+   private void returnGroupPage() {
+      wd.findElement(By.linkText("group page")).click();
    }
 
-   private void submintGroupCreation(String submit) {
-      wd.findElement(By.name(submit)).click();
+   private void submintGroupCreation() {
+      wd.findElement(By.name("submit")).click();
    }
 
    private void fillGroupForm(GroupData groupData) {
