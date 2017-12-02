@@ -17,7 +17,7 @@ public class ApplicationManager {
    public void init() {
       wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true).setBinary("/home/solsystem/firefox-esr/firefox"));
       wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
-      wd.get("http://192.168.1.150/addressbook/index.php");
+      wd.get("http://localhost/addressbook/index.php");
 
       groupHelper = new GroupHelper(wd);
       navigationHelper = new NavigationHelper(wd);
