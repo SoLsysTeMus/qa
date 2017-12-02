@@ -1,4 +1,4 @@
-package ru.stga.pft.addressbook;
+package ru.stga.pft.addressbook.model;
 
 public class ContactData {
    private final String firstName;
@@ -8,6 +8,7 @@ public class ContactData {
    private final String email;
 
    public ContactData(String firstName, String lastname, String address, String homePhone, String email) {
+
       this.firstName = firstName;
       this.lastname = lastname;
       this.address = address;
