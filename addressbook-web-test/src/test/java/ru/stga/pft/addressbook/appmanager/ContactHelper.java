@@ -2,9 +2,13 @@ package ru.stga.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stga.pft.addressbook.model.ContactData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -34,8 +38,10 @@ public class ContactHelper extends HelperBase {
       click(By.linkText("add new"));
    }
 
-   public void selectContact() {
-      click(By.name("selected[]"));
+   public void selectContact(int index) {
+      List<WebElement> allRows = getAllRowsFromContactTable();
+
+      allRows.get(index).findElements(By.tagName("td")).get(0).click();
    }
 
    public void deleteSelectedContact() {
@@ -43,8 +49,10 @@ public class ContactHelper extends HelperBase {
       wd.switchTo().alert().accept();
    }
 
-   public void modificateContact() {
-      click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+   public void modificateContact(int index) {
+      List<WebElement> allRows = getAllRowsFromContactTable();
+
+      allRows.get(index).findElements(By.tagName("td")).get(7).click();
    }
 
    public void submintContactModification() {
@@ -59,5 +67,33 @@ public class ContactHelper extends HelperBase {
       initNewContact();
       fillContactForm(contact, creation);
       submintContactCreation();
+   }
+
+   public List<ContactData> getContactList() {
+
+      List<ContactData> contacts = new ArrayList<>();
+
+      List<WebElement> allRows = getAllRowsFromContactTable();
+
+      for (WebElement row : allRows) {
+
+         List<WebElement> cells = row.findElements(By.tagName("td"));
+
+         int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("id"));
+         String lastName = cells.get(1).getText();
+         String firstName = cells.get(2).getText();
+         String address = cells.get(3).getText();
+         String email = cells.get(4).getText();
+         String phone = cells.get(5).getText().replaceAll("\\D", "");
+
+         contacts.add(new ContactData(id, firstName, lastName, address, phone, email));
+      }
+
+      return contacts;
+   }
+
+   public List<WebElement> getAllRowsFromContactTable() {
+      WebElement table = wd.findElement(By.cssSelector("#maintable"));
+      return table.findElements(By.name("entry"));
    }
 }
