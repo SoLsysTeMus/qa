@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stga.pft.addressbook.model.ContactData;
+import ru.stga.pft.addressbook.model.Contacts;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -38,10 +38,8 @@ public class ContactHelper extends HelperBase {
       click(By.linkText("add new"));
    }
 
-   public void selectContact(int index) {
-      List<WebElement> allRows = getAllRowsFromContactTable();
-
-      allRows.get(index).findElements(By.tagName("td")).get(0).click();
+   public void selectContactById(int id) {
+      wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
    }
 
    public void deleteSelectedContact() {
@@ -49,10 +47,8 @@ public class ContactHelper extends HelperBase {
       wd.switchTo().alert().accept();
    }
 
-   public void modificateContact(int index) {
-      List<WebElement> allRows = getAllRowsFromContactTable();
-
-      allRows.get(index).findElements(By.tagName("td")).get(7).click();
+   public void modificateContactById(int id) {
+      wd.findElement(By.cssSelector("a[href='edit.php?id=" + id + "']")).click();
    }
 
    public void submintContactModification() {
@@ -63,15 +59,15 @@ public class ContactHelper extends HelperBase {
       return isElementPresent(By.name("selected[]"));
    }
 
-   public void createContact(ContactData contact, boolean creation) {
+   public void create(ContactData contact, boolean creation) {
       initNewContact();
       fillContactForm(contact, creation);
       submintContactCreation();
    }
 
-   public List<ContactData> getContactList() {
+   public Contacts all() {
 
-      List<ContactData> contacts = new ArrayList<>();
+      Contacts contacts = new Contacts();
 
       List<WebElement> allRows = getAllRowsFromContactTable();
 
@@ -86,7 +82,13 @@ public class ContactHelper extends HelperBase {
          String email = cells.get(4).getText();
          String phone = cells.get(5).getText().replaceAll("\\D", "");
 
-         contacts.add(new ContactData(id, firstName, lastName, address, phone, email));
+         contacts.add(new ContactData()
+                 .withId(id)
+                 .withFirstName(firstName)
+                 .withLastname(lastName)
+                 .withAddress(address)
+                 .withHomePhone(phone)
+                 .withEmail(email));
       }
 
       return contacts;

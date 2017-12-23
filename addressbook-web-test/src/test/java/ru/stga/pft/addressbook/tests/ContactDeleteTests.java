@@ -1,41 +1,58 @@
 package ru.stga.pft.addressbook.tests;
 
-import org.testng.Assert;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stga.pft.addressbook.model.ContactData;
+import ru.stga.pft.addressbook.model.Contacts;
 import ru.stga.pft.addressbook.model.GroupData;
-
-import java.util.List;
+import ru.stga.pft.addressbook.model.Groups;
 
 public class ContactDeleteTests extends TestBase {
 
+   @BeforeMethod
+   public void ensurePreconditions() {
+      app.goTo().HomePage();
+      if (app.contacts().all().size() == 0) {
+         app.goTo().GroupPage();
+
+         if (app.group().all().size() == 0) {
+            app.group().create(new GroupData()
+                    .withName("test1")
+                    .withFooter("test2")
+                    .withHeader("test3"));
+         }
+
+         Groups groups = app.group().all();
+         GroupData group = groups.iterator().next();
+
+         ContactData contact = new ContactData()
+                 .withFirstName("Dmitry")
+                 .withLastname("Volkovsky")
+                 .withAddress("Moscow")
+                 .withHomePhone("88005553535")
+                 .withEmail("volkovsky@ros-it.ru")
+                 .withGroup(group.getName());
+
+         app.contacts().create(contact, true);
+
+      }
+   }
+
    @Test
    public void testContactDelete() {
-      String group;
 
       app.goTo().HomePage();
-      if (!app.getContactHelper().isThereAContact()) {
-         app.goTo().GroupPage();
-         if (app.group().all().size() == 0) {
-            app.group().create(new GroupData().withName("test1").withFooter("test2").withHeader("test3"));
-            app.goTo().HomePage();
-            group = "test1";
-         } else {
-            group = app.group().getFirstGroup();
-         }
-         app.getContactHelper().createContact(new ContactData("Dmitry", "Volkovsky", "Moscow",
-                 "88005553535", "volkovsky@ros-it.ru", group), true);
-         app.goTo().HomePage();
-      }
-
-      List<ContactData> before = app.getContactHelper().getContactList();
-      app.getContactHelper().selectContact(before.size() - 1);
-      app.getContactHelper().deleteSelectedContact();
+      Contacts before = app.contacts().all();
+      ContactData deletedContact = before.iterator().next();
+      app.contacts().selectContactById(deletedContact.getId());
+      app.contacts().deleteSelectedContact();
       app.goTo().HomePage();
-      before.remove(before.size() - 1);
-      List<ContactData> after = app.getContactHelper().getContactList();
 
-      Assert.assertEquals(before, after);
+      Contacts after = app.contacts().all();
+
+      MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(deletedContact)));
    }
 
 
