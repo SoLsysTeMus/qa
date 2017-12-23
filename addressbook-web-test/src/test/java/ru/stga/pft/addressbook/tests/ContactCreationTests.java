@@ -14,23 +14,22 @@ public class ContactCreationTests extends TestBase {
    public void testContactCreation() {
       String group;
 
-      app.getNavigationHelper().gotoHomePage();
+      app.goTo().HomePage();
+      app.goTo().GroupPage();
 
-      app.getNavigationHelper().gotoGroupPage();
-      if (!app.getGroupHelper().isThereAGroup()) {
-         app.getGroupHelper().createGroup(new GroupData("test1", "test2", "test3"));
+      if (app.group().all().size() == 0) {
+         app.group().create(new GroupData().withName("test1").withFooter("test2").withHeader("test3"));
          group = "test1";
-         app.getNavigationHelper().gotoHomePage();
       } else {
-         group = app.getGroupHelper().getFirstGroup();
-         app.getNavigationHelper().gotoHomePage();
+         group = app.group().getFirstGroup();
       }
 
+      app.goTo().HomePage();
       List<ContactData> before = app.getContactHelper().getContactList();
       ContactData contact = new ContactData("Dmitry", "Volkovsky", "Moscow",
               "88005553535", "volkovsky@ros-it.ru", group);
       app.getContactHelper().createContact(contact, true);
-      app.getNavigationHelper().gotoHomePage();
+      app.goTo().HomePage();
       List<ContactData> after = app.getContactHelper().getContactList();
 
       Assert.assertEquals(after.size(), before.size() + 1);

@@ -13,25 +13,25 @@ public class ContactDeleteTests extends TestBase {
    public void testContactDelete() {
       String group;
 
-      app.getNavigationHelper().gotoHomePage();
+      app.goTo().HomePage();
       if (!app.getContactHelper().isThereAContact()) {
-         app.getNavigationHelper().gotoGroupPage();
-         if (!app.getGroupHelper().isThereAGroup()) {
-            app.getGroupHelper().createGroup(new GroupData("test1", "test2", "test3"));
-            app.getNavigationHelper().gotoHomePage();
+         app.goTo().GroupPage();
+         if (app.group().all().size() == 0) {
+            app.group().create(new GroupData().withName("test1").withFooter("test2").withHeader("test3"));
+            app.goTo().HomePage();
             group = "test1";
          } else {
-            group = app.getGroupHelper().getFirstGroup();
+            group = app.group().getFirstGroup();
          }
          app.getContactHelper().createContact(new ContactData("Dmitry", "Volkovsky", "Moscow",
                  "88005553535", "volkovsky@ros-it.ru", group), true);
-         app.getNavigationHelper().gotoHomePage();
+         app.goTo().HomePage();
       }
 
       List<ContactData> before = app.getContactHelper().getContactList();
       app.getContactHelper().selectContact(before.size() - 1);
       app.getContactHelper().deleteSelectedContact();
-      app.getNavigationHelper().gotoHomePage();
+      app.goTo().HomePage();
       before.remove(before.size() - 1);
       List<ContactData> after = app.getContactHelper().getContactList();
 
