@@ -73,10 +73,6 @@ public class GroupHelper extends HelperBase {
       returnGroupPage();
    }
 
-   public String getFirstGroup() {
-      return wd.findElement(By.xpath("//*[@id=\"content\"]/form/span")).getText();
-   }
-
    public Groups all() {
       Groups groups = new Groups();
       List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));

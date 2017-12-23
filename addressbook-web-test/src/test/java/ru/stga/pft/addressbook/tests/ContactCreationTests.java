@@ -18,7 +18,10 @@ public class ContactCreationTests extends TestBase {
       app.goTo().GroupPage();
 
       if (app.group().all().size() == 0) {
-         app.group().create(new GroupData().withName("test1").withFooter("test2").withHeader("test3"));
+         app.group().create(new GroupData()
+                 .withName("test1")
+                 .withFooter("test2")
+                 .withHeader("test3"));
       }
    }
 

@@ -5,7 +5,7 @@ import java.util.Objects;
 public class ContactData {
    private int id;
    private String firstName;
-   private String lastname;
+   private String lastName;
    private String address;
    private String homePhone;
    private String email;
@@ -20,8 +20,8 @@ public class ContactData {
       return firstName;
    }
 
-   public String getLastname() {
-      return lastname;
+   public String getLastName() {
+      return lastName;
    }
 
    public String getAddress() {
@@ -50,8 +50,8 @@ public class ContactData {
       return this;
    }
 
-   public ContactData withLastname(String lastname) {
-      this.lastname = lastname;
+   public ContactData withLastname(String lastName) {
+      this.lastName = lastName;
       return this;
    }
 
@@ -82,7 +82,7 @@ public class ContactData {
       ContactData that = (ContactData) o;
       return id == that.id &&
               Objects.equals(firstName, that.firstName) &&
-              Objects.equals(lastname, that.lastname) &&
+              Objects.equals(lastName, that.lastName) &&
               Objects.equals(address, that.address) &&
               Objects.equals(homePhone, that.homePhone) &&
               Objects.equals(email, that.email);
@@ -91,7 +91,7 @@ public class ContactData {
    @Override
    public int hashCode() {
 
-      return Objects.hash(id, firstName, lastname, address, homePhone, email);
+      return Objects.hash(id, firstName, lastName, address, homePhone, email);
    }
 
    @Override
@@ -99,7 +99,7 @@ public class ContactData {
       return "ContactData{" +
               "id=" + id +
               ", firstName='" + firstName + '\'' +
-              ", lastname='" + lastname + '\'' +
+              ", lastName='" + lastName + '\'' +
               ", address='" + address + '\'' +
               ", homePhone='" + homePhone + '\'' +
               ", email='" + email + '\'' +

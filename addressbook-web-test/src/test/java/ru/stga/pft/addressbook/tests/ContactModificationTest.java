@@ -20,13 +20,17 @@ public class ContactModificationTest extends TestBase {
          app.goTo().GroupPage();
 
          if (app.group().all().size() == 0) {
-            app.group().create(new GroupData().withName("test1").withFooter("test2").withHeader("test3"));
+            app.group().create(new GroupData()
+                    .withName("test1")
+                    .withFooter("test2")
+                    .withHeader("test3"));
          }
 
          Groups groups = app.group().all();
          GroupData group = groups.iterator().next();
 
-         ContactData contact = new ContactData().withFirstName("Dmitry")
+         ContactData contact = new ContactData()
+                 .withFirstName("Dmitry")
                  .withLastname("Volkovsky")
                  .withAddress("Moscow")
                  .withHomePhone("88005553535")
@@ -44,7 +48,8 @@ public class ContactModificationTest extends TestBase {
       Contacts before = app.contacts().all();
       ContactData modifyContact = before.iterator().next();
 
-      ContactData contact = new ContactData().withId(modifyContact.getId())
+      ContactData contact = new ContactData()
+              .withId(modifyContact.getId())
               .withFirstName("Dmitry3")
               .withLastname("Volkovsky3")
               .withAddress("Moscow2")
