@@ -9,6 +9,8 @@ import ru.stga.pft.addressbook.model.Contacts;
 import ru.stga.pft.addressbook.model.GroupData;
 import ru.stga.pft.addressbook.model.Groups;
 
+import static org.testng.Assert.assertEquals;
+
 public class ContactDeleteTests extends TestBase {
 
    @BeforeMethod
@@ -29,10 +31,10 @@ public class ContactDeleteTests extends TestBase {
 
          ContactData contact = new ContactData()
                  .withFirstName("Dmitry")
-                 .withLastname("Volkovsky")
+                 .withLastName("Volkovsky")
                  .withAddress("Moscow")
                  .withHomePhone("88005553535")
-                 .withEmail("volkovsky@ros-it.ru")
+                 .withFirstEmail("volkovsky@ros-it.ru")
                  .withGroup(group.getName());
 
          app.contacts().create(contact, true);
@@ -49,9 +51,9 @@ public class ContactDeleteTests extends TestBase {
       app.contacts().selectContactById(deletedContact.getId());
       app.contacts().deleteSelectedContact();
       app.goTo().HomePage();
+      assertEquals(app.contacts().count(),before.size() - 1);
 
       Contacts after = app.contacts().all();
-
       MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(deletedContact)));
    }
 

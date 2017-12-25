@@ -35,18 +35,17 @@ public class ContactCreationTests extends TestBase {
       Contacts before = app.contacts().all();
 
       ContactData contact = new ContactData().withFirstName("Dmitry")
-              .withLastname("Volkovsky")
+              .withLastName("Volkovsky")
               .withAddress("Moscow")
               .withHomePhone("88005553535")
-              .withEmail("volkovsky@ros-it.ru")
+              .withFirstEmail("volkovsky@ros-it.ru")
               .withGroup(group.getName());
 
       app.contacts().create(contact, true);
       app.goTo().HomePage();
+      assertEquals(app.contacts().count(), before.size() + 1);
+
       Contacts after = app.contacts().all();
-
-      assertEquals(after.size(), before.size() + 1);
-
       assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
    }
 }

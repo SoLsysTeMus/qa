@@ -1,17 +1,15 @@
 package ru.stga.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stga.pft.addressbook.model.ContactData;
-import ru.stga.pft.addressbook.model.Contacts;
 import ru.stga.pft.addressbook.model.GroupData;
 import ru.stga.pft.addressbook.model.Groups;
 
-import static org.testng.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactModificationTest extends TestBase {
+public class ContactAddressTest extends TestBase{
 
    @BeforeMethod
    public void ensurePreconditions() {
@@ -35,6 +33,7 @@ public class ContactModificationTest extends TestBase {
                  .withAddress("Moscow")
                  .withHomePhone("88005553535")
                  .withFirstEmail("volkovsky@ros-it.ru")
+                 .withThirdEmail("volkovsky2@ros-it.ru")
                  .withGroup(group.getName());
 
          app.contacts().create(contact, true);
@@ -43,26 +42,11 @@ public class ContactModificationTest extends TestBase {
    }
 
    @Test
-   public void testContactModification() {
+   public void testContactEmails(){
       app.goTo().HomePage();
-      Contacts before = app.contacts().all();
-      ContactData modifyContact = before.iterator().next();
+      ContactData contact = app.contacts().all().iterator().next();
+      ContactData contactInfoFromEditForm = app.contacts().infoFromEditForm(contact);
 
-      ContactData contact = new ContactData()
-              .withId(modifyContact.getId())
-              .withFirstName("Dmitry3")
-              .withLastName("Volkovsky3")
-              .withAddress("Moscow2")
-              .withHomePhone("88005553535")
-              .withFirstEmail("volkovsky@ros-it.ru");
-
-      app.contacts().modificateContactById(contact.getId());
-      app.contacts().fillContactForm(contact, false);
-      app.contacts().submintContactModification();
-      app.goTo().HomePage();
-      assertEquals(app.contacts().count(), before.size());
-
-      Contacts after = app.contacts().all();
-      MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(modifyContact).withAdded(contact)));
+      assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
    }
 }
