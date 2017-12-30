@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactPhoneTest extends TestBase{
+public class ContactPhoneTest extends TestBase {
 
    @BeforeMethod
    public void ensurePreconditions() {
@@ -44,7 +44,7 @@ public class ContactPhoneTest extends TestBase{
    }
 
    @Test
-   public void testContactPhones(){
+   public void testContactPhones() {
       app.goTo().HomePage();
       ContactData contact = app.contacts().all().iterator().next();
       ContactData contactInfoFromEditForm = app.contacts().infoFromEditForm(contact);
@@ -54,13 +54,13 @@ public class ContactPhoneTest extends TestBase{
    }
 
    private String mergePhones(ContactData contact) {
-      return Stream.of(contact.getHomePhone(),contact.getMobilePhone(),contact.getWorkPhone())
+      return Stream.of(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
               .map(this::cleaned)
               .filter((s) -> !s.equals(""))
               .collect(Collectors.joining("\n"));
    }
 
-   private String cleaned(String prone){
-      return prone.replaceAll("\\s","").replaceAll("[-()]","");
+   private String cleaned(String prone) {
+      return prone.replaceAll("\\s", "").replaceAll("[-()]", "");
    }
 }

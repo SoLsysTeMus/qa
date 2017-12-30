@@ -9,7 +9,7 @@ import ru.stga.pft.addressbook.model.Groups;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactAddressTest extends TestBase{
+public class ContactAddressTest extends TestBase {
 
    @BeforeMethod
    public void ensurePreconditions() {
@@ -42,7 +42,7 @@ public class ContactAddressTest extends TestBase{
    }
 
    @Test
-   public void testContactEmails(){
+   public void testContactEmails() {
       app.goTo().HomePage();
       ContactData contact = app.contacts().all().iterator().next();
       ContactData contactInfoFromEditForm = app.contacts().infoFromEditForm(contact);

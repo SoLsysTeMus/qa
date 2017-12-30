@@ -31,6 +31,7 @@ public class ContactHelper extends HelperBase {
       type(By.name("email"), contactData.getFirstEmail());
       type(By.name("email2"), contactData.getSecondEmail());
       type(By.name("email3"), contactData.getThirdEmail());
+      attach(By.name("photo"), contactData.getPhoto());
 
       if (creation) {
          new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
@@ -54,7 +55,7 @@ public class ContactHelper extends HelperBase {
    }
 
    public void modificateContactById(int id) {
-      wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']",id))).click();
+      wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
    }
 
    public void submintContactModification() {
