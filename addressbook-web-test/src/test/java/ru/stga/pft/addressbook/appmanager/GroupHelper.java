@@ -93,7 +93,6 @@ public class GroupHelper extends HelperBase {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             String name = element.getText();
             groupCache.add(new GroupData().withId(id).withName(name));
-
          }
       }
 

@@ -58,18 +58,18 @@ public class ContactDataGenerator {
               .setPrettyPrinting()
               .create();
       String json = gson.toJson(contacts);
-      Writer writer = new FileWriter(file);
-      writer.write(json);
-      writer.close();
+      try (Writer writer = new FileWriter(file)) {
+         writer.write(json);
+      }
    }
 
    private void saveAsXml(List<ContactData> contacts, File file) throws IOException {
       XStream xStream = new XStream();
       xStream.processAnnotations(ContactData.class);
       String xml = xStream.toXML(contacts);
-      Writer writer = new FileWriter(file);
-      writer.write(xml);
-      writer.close();
+      try (Writer writer = new FileWriter(file)) {
+         writer.write(xml);
+      }
    }
 
 
@@ -82,7 +82,7 @@ public class ContactDataGenerator {
                  .withAddress(String.format("Moscow%s", i))
                  .withHomePhone(String.format("8800555353%s", i))
                  .withFirstEmail(String.format("volkovsky%s@ros-it.ru", i))
-                 .withGroup(String.format("group%s", i)));
+                 .withGroup(String.format("group0")));
       }
       return contactData;
    }

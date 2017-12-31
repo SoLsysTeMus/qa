@@ -110,7 +110,7 @@ public class ContactHelper extends HelperBase {
    }
 
    public List<WebElement> getAllRowsFromContactTable() {
-      WebElement table = wd.findElement(By.cssSelector("#maintable"));
+      WebElement table = wd.findElement(By.id("maintable"));
       return table.findElements(By.name("entry"));
    }
 
