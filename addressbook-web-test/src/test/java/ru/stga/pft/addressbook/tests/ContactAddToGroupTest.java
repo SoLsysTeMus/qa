@@ -6,10 +6,10 @@ import ru.stga.pft.addressbook.model.ContactData;
 import ru.stga.pft.addressbook.model.Contacts;
 import ru.stga.pft.addressbook.model.GroupData;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactAddToGroupTest extends TestBase{
+public class ContactAddToGroupTest extends TestBase {
 
    @BeforeMethod
    public void ensurePreconditions() {
@@ -58,8 +58,8 @@ public class ContactAddToGroupTest extends TestBase{
 
    private int getIdForSomeContactWithoutGroup(Contacts contacts) {
       int id = 0;
-      for (ContactData contactData: contacts){
-         if (contactData.getGroups().size() == 0){
+      for (ContactData contactData : contacts) {
+         if (contactData.getGroups().size() == 0) {
             id = contactData.getId();
             break;
          }

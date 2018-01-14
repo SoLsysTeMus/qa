@@ -16,8 +16,8 @@ import ru.stga.pft.addressbook.model.Groups;
 import java.lang.reflect.Method;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class TestBase {
@@ -36,12 +36,12 @@ public class TestBase {
    }
 
    @BeforeMethod
-   public void logTestStart(Method m){
+   public void logTestStart(Method m) {
       logger.info("Start test " + m.getName());
    }
 
    @AfterMethod(alwaysRun = true)
-   public void logTestStop(Method m){
+   public void logTestStop(Method m) {
       logger.info("Stop test " + m.getName());
    }
 

@@ -68,11 +68,11 @@ public class ContactDeleteFromGroupTest extends TestBase {
 
    private int getIdForSomeContactWithGroup(Contacts contacts) {
       int id = 0;
-      for (ContactData contactData: contacts){
-         if (contactData.getGroups().size() > 0){
-               id = contactData.getId();
-               break;
-            }
+      for (ContactData contactData : contacts) {
+         if (contactData.getGroups().size() > 0) {
+            id = contactData.getId();
+            break;
+         }
       }
       return id;
    }

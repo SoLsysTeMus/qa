@@ -68,6 +68,14 @@ public class ContactData {
    @ManyToMany(fetch = FetchType.EAGER)
    @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
    private Set<GroupData> groups = new HashSet<>();
+   @Transient
+   private String allPhones;
+   @Transient
+   private String allEmails;
+   @Expose
+   @Column(name = "photo")
+   @Type(type = "text")
+   private String photo;
 
    @Override
    public boolean equals(Object o) {
@@ -93,17 +101,6 @@ public class ContactData {
 
       return Objects.hash(id, firstName, lastName, address, homePhone, workPhone, mobilePhone, firstEmail, secondEmail, thirdEmail, allPhones, allEmails);
    }
-
-   @Transient
-   private String allPhones;
-
-   @Transient
-   private String allEmails;
-
-   @Expose
-   @Column(name = "photo")
-   @Type(type = "text")
-   private String photo;
 
    @Override
    public String toString() {

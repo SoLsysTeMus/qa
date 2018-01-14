@@ -149,8 +149,8 @@ public class ContactHelper extends HelperBase {
 
    public boolean allContactsWithGroups(Contacts contacts) {
       boolean result = true;
-      for (ContactData contactData: contacts){
-         if (contactData.getGroups().size() == 0){
+      for (ContactData contactData : contacts) {
+         if (contactData.getGroups().size() == 0) {
             result = false;
             break;
          }
@@ -160,8 +160,8 @@ public class ContactHelper extends HelperBase {
 
    public boolean allContactsWithoutGroups(Contacts contacts) {
       boolean result = true;
-      for (ContactData contactData: contacts){
-         if (contactData.getGroups().size() > 0){
+      for (ContactData contactData : contacts) {
+         if (contactData.getGroups().size() > 0) {
             result = false;
             break;
          }

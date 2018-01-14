@@ -19,7 +19,7 @@ public class DbConnectionTest {
          Statement statement = conn.createStatement();
          ResultSet resultSet = statement.executeQuery("Select group_id, group_name, group_header, group_footer from group_list");
          Groups groups = new Groups();
-         while (resultSet.next()){
+         while (resultSet.next()) {
             groups.add(new GroupData()
                     .withId(resultSet.getInt("group_id"))
                     .withName(resultSet.getString("group_name"))
