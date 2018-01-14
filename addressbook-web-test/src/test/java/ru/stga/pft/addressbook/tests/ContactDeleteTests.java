@@ -26,7 +26,6 @@ public class ContactDeleteTests extends TestBase {
          }
 
          Groups groups = app.db().groups();
-         GroupData group = groups.iterator().next();
 
          ContactData contact = new ContactData()
                  .withFirstName("Dmitry")
@@ -38,7 +37,7 @@ public class ContactDeleteTests extends TestBase {
                  .withFirstEmail("volkovsky@ros-it.ru")
                  .withSecondEmail("")
                  .withThirdEmail("")
-                 .withGroup(group.getName());
+                 .inGroup(groups.iterator().next());
 
          app.contacts().create(contact, true);
 
@@ -57,7 +56,9 @@ public class ContactDeleteTests extends TestBase {
       assertEquals(app.contacts().count(), before.size() - 1);
 
       Contacts after = app.db().contacts();
+
       MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(deletedContact)));
+      verifyContactListInUI();
    }
 
 

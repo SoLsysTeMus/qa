@@ -7,7 +7,9 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @XStreamAlias("contact")
 @Entity
@@ -42,6 +44,7 @@ public class ContactData {
    @Type(type = "text")
    private String workPhone;
 
+   @Expose
    @Column(name = "mobile")
    @Type(type = "text")
    private String mobilePhone;
@@ -51,17 +54,20 @@ public class ContactData {
    @Type(type = "text")
    private String firstEmail;
 
+   @Expose
    @Column(name = "email2")
    @Type(type = "text")
    private String secondEmail;
 
+   @Expose
    @Column(name = "email3")
    @Type(type = "text")
    private String thirdEmail;
 
    @Expose
-   @Transient
-   private String group;
+   @ManyToMany(fetch = FetchType.EAGER)
+   @JoinTable(name = "address_in_groups", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+   private Set<GroupData> groups = new HashSet<>();
 
    @Override
    public boolean equals(Object o) {
@@ -99,6 +105,24 @@ public class ContactData {
    @Type(type = "text")
    private String photo;
 
+   @Override
+   public String toString() {
+      return "ContactData{" +
+              "id=" + id +
+              ", firstName='" + firstName + '\'' +
+              ", lastName='" + lastName + '\'' +
+              ", address='" + address + '\'' +
+              ", homePhone='" + homePhone + '\'' +
+              ", workPhone='" + workPhone + '\'' +
+              ", mobilePhone='" + mobilePhone + '\'' +
+              ", firstEmail='" + firstEmail + '\'' +
+              ", secondEmail='" + secondEmail + '\'' +
+              ", thirdEmail='" + thirdEmail + '\'' +
+              ", groups=" + groups +
+              ", allPhones='" + allPhones + '\'' +
+              ", allEmails='" + allEmails + '\'' +
+              '}';
+   }
 
    public int getId() {
       return id;
@@ -138,10 +162,6 @@ public class ContactData {
 
    public String getThirdEmail() {
       return thirdEmail;
-   }
-
-   public String getGroup() {
-      return group;
    }
 
    public String getWorkPhone() {
@@ -210,9 +230,8 @@ public class ContactData {
       return this;
    }
 
-   public ContactData withGroup(String group) {
-      this.group = group;
-      return this;
+   public Groups getGroups() {
+      return new Groups(groups);
    }
 
    public ContactData withWorkPhone(String workPhone) {
@@ -230,24 +249,9 @@ public class ContactData {
       return this;
    }
 
-   @Override
-   public String toString() {
-      return "ContactData{" +
-              "id=" + id +
-              ", firstName='" + firstName + '\'' +
-              ", lastName='" + lastName + '\'' +
-              ", address='" + address + '\'' +
-              ", homePhone='" + homePhone + '\'' +
-              ", workPhone='" + workPhone + '\'' +
-              ", mobilePhone='" + mobilePhone + '\'' +
-              ", firstEmail='" + firstEmail + '\'' +
-              ", secondEmail='" + secondEmail + '\'' +
-              ", thirdEmail='" + thirdEmail + '\'' +
-              ", group='" + group + '\'' +
-              ", allPhones='" + allPhones + '\'' +
-              ", allEmails='" + allEmails + '\'' +
-              '}';
+
+   public ContactData inGroup(GroupData group) {
+      groups.add(group);
+      return this;
    }
-
-
 }

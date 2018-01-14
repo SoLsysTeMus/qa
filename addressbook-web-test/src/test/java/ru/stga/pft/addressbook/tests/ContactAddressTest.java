@@ -36,7 +36,7 @@ public class ContactAddressTest extends TestBase {
                  .withFirstEmail("volkovsky@ros-it.ru")
                  .withSecondEmail("")
                  .withThirdEmail("")
-                 .withGroup(group.getName());
+                 .inGroup(groups.iterator().next());
 
          app.contacts().create(contact, true);
       }

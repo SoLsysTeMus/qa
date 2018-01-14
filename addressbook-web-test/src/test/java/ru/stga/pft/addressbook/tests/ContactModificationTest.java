@@ -39,7 +39,7 @@ public class ContactModificationTest extends TestBase {
                  .withFirstEmail("volkovsky@ros-it.ru")
                  .withSecondEmail("")
                  .withThirdEmail("")
-                 .withGroup(group.getName());
+                 .inGroup(group);
 
          app.contacts().create(contact, true);
 
@@ -71,6 +71,8 @@ public class ContactModificationTest extends TestBase {
       assertEquals(app.contacts().count(), before.size());
 
       Contacts after = app.db().contacts();
+
       MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(modifyContact).withAdded(contact)));
+      verifyContactListInUI();
    }
 }

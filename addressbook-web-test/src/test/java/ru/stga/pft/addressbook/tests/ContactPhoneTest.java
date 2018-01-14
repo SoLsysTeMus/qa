@@ -35,7 +35,7 @@ public class ContactPhoneTest extends TestBase {
                  .withAddress("Moscow")
                  .withHomePhone("88005553535")
                  .withFirstEmail("volkovsky@ros-it.ru")
-                 .withGroup(group.getName());
+                 .inGroup(groups.iterator().next());
 
          app.contacts().create(contact, true);
 

@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.XStream;
 import ru.stga.pft.addressbook.model.ContactData;
+import ru.stga.pft.addressbook.model.GroupData;
+import ru.stga.pft.addressbook.model.Groups;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -75,14 +77,20 @@ public class ContactDataGenerator {
 
    private List<ContactData> generateContacts(int count) {
       List<ContactData> contactData = new ArrayList<>();
+      Groups groups = new Groups();
+      groups.add(new GroupData().withName("group0").withFooter("group0").withHeader("group0"));
       for (int i = 0; i < count; i++) {
          contactData.add(new ContactData()
                  .withFirstName(String.format("Dmitry%s", i))
                  .withLastName(String.format("Volkovsky%s", i))
                  .withAddress(String.format("Moscow%s", i))
                  .withHomePhone(String.format("8800555353%s", i))
+                 .withMobilePhone("")
+                 .withWorkPhone("")
                  .withFirstEmail(String.format("volkovsky%s@ros-it.ru", i))
-                 .withGroup(String.format("group0")));
+                 .withSecondEmail("")
+                 .withThirdEmail("")
+                 .inGroup(groups.iterator().next()));
       }
       return contactData;
    }
