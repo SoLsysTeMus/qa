@@ -13,18 +13,17 @@ public class ContactAddressTest extends TestBase {
 
    @BeforeMethod
    public void ensurePreconditions() {
-      app.goTo().HomePage();
-      if (app.contacts().all().size() == 0) {
-         app.goTo().GroupPage();
+      if (app.db().contacts().size() == 0) {
 
-         if (app.group().all().size() == 0) {
+         if (app.db().groups().size() == 0) {
+            app.goTo().GroupPage();
             app.group().create(new GroupData()
-                    .withName("test1")
-                    .withFooter("test2")
-                    .withHeader("test3"));
+                    .withName("group0")
+                    .withFooter("group0")
+                    .withHeader("group0"));
          }
 
-         Groups groups = app.group().all();
+         Groups groups = app.db().groups();
          GroupData group = groups.iterator().next();
 
          ContactData contact = new ContactData()
@@ -32,20 +31,24 @@ public class ContactAddressTest extends TestBase {
                  .withLastName("Volkovsky")
                  .withAddress("Moscow")
                  .withHomePhone("88005553535")
+                 .withWorkPhone("")
+                 .withMobilePhone("")
                  .withFirstEmail("volkovsky@ros-it.ru")
-                 .withThirdEmail("volkovsky2@ros-it.ru")
+                 .withSecondEmail("")
+                 .withThirdEmail("")
                  .withGroup(group.getName());
 
          app.contacts().create(contact, true);
-
       }
    }
 
    @Test
    public void testContactEmails() {
       app.goTo().HomePage();
-      ContactData contact = app.contacts().all().iterator().next();
+      ContactData contact = app.db().contacts().iterator().next();
       ContactData contactInfoFromEditForm = app.contacts().infoFromEditForm(contact);
+      System.out.println(contact);
+      System.out.println(contactInfoFromEditForm);
 
       assertThat(contact.getAddress(), equalTo(contactInfoFromEditForm.getAddress()));
    }

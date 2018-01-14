@@ -16,18 +16,17 @@ public class ContactPhoneTest extends TestBase {
 
    @BeforeMethod
    public void ensurePreconditions() {
-      app.goTo().HomePage();
-      if (app.contacts().all().size() == 0) {
-         app.goTo().GroupPage();
+      if (app.db().contacts().size() == 0) {
 
-         if (app.group().all().size() == 0) {
+         if (app.db().groups().size() == 0) {
+            app.goTo().GroupPage();
             app.group().create(new GroupData()
-                    .withName("test1")
-                    .withFooter("test2")
-                    .withHeader("test3"));
+                    .withName("group0")
+                    .withFooter("group0")
+                    .withHeader("group0"));
          }
 
-         Groups groups = app.group().all();
+         Groups groups = app.db().groups();
          GroupData group = groups.iterator().next();
 
          ContactData contact = new ContactData()
@@ -48,6 +47,8 @@ public class ContactPhoneTest extends TestBase {
       app.goTo().HomePage();
       ContactData contact = app.contacts().all().iterator().next();
       ContactData contactInfoFromEditForm = app.contacts().infoFromEditForm(contact);
+      System.out.println(contact);
+      System.out.println(contactInfoFromEditForm);
 
       assertThat(contact.getAllPhones(), equalTo(mergePhones(contactInfoFromEditForm)));
 

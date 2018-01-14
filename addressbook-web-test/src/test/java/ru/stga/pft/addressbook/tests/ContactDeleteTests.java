@@ -15,18 +15,17 @@ public class ContactDeleteTests extends TestBase {
 
    @BeforeMethod
    public void ensurePreconditions() {
-      app.goTo().HomePage();
-      if (app.contacts().all().size() == 0) {
-         app.goTo().GroupPage();
+      if (app.db().contacts().size() == 0) {
 
-         if (app.group().all().size() == 0) {
+         if (app.db().groups().size() == 0) {
+            app.goTo().GroupPage();
             app.group().create(new GroupData()
-                    .withName("test1")
-                    .withFooter("test2")
-                    .withHeader("test3"));
+                    .withName("group0")
+                    .withFooter("group0")
+                    .withHeader("group0"));
          }
 
-         Groups groups = app.group().all();
+         Groups groups = app.db().groups();
          GroupData group = groups.iterator().next();
 
          ContactData contact = new ContactData()
@@ -34,7 +33,11 @@ public class ContactDeleteTests extends TestBase {
                  .withLastName("Volkovsky")
                  .withAddress("Moscow")
                  .withHomePhone("88005553535")
+                 .withWorkPhone("")
+                 .withMobilePhone("")
                  .withFirstEmail("volkovsky@ros-it.ru")
+                 .withSecondEmail("")
+                 .withThirdEmail("")
                  .withGroup(group.getName());
 
          app.contacts().create(contact, true);
@@ -46,14 +49,14 @@ public class ContactDeleteTests extends TestBase {
    public void testContactDelete() {
 
       app.goTo().HomePage();
-      Contacts before = app.contacts().all();
+      Contacts before = app.db().contacts();
       ContactData deletedContact = before.iterator().next();
       app.contacts().selectContactById(deletedContact.getId());
       app.contacts().deleteSelectedContact();
       app.goTo().HomePage();
       assertEquals(app.contacts().count(), before.size() - 1);
 
-      Contacts after = app.contacts().all();
+      Contacts after = app.db().contacts();
       MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.without(deletedContact)));
    }
 
