@@ -1,0 +1,26 @@
+[
+  {
+    "firstName": "Dmitry0",
+    "lastName": "Volkovsky0",
+    "address": "Moscow0",
+    "homePhone": "88005553530",
+    "firstEmail": "volkovsky0@ros-it.ru",
+    "group": "group0"
+  },
+  {
+    "firstName": "Dmitry1",
+    "lastName": "Volkovsky1",
+    "address": "Moscow1",
+    "homePhone": "88005553531",
+    "firstEmail": "volkovsky1@ros-it.ru",
+    "group": "group0"
+  },
+  {
+    "firstName": "Dmitry2",
+    "lastName": "Volkovsky2",
+    "address": "Moscow2",
+    "homePhone": "88005553532",
+    "firstEmail": "volkovsky2@ros-it.ru",
+    "group": "group0"
+  }
+]
