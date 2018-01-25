@@ -15,10 +15,15 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
 
    private final Properties properties;
-   WebDriver wd;
-
-
+   private WebDriver wd;
    private String browser;
+   private RegistrationHelper registrationHelper;
+   private FtpHelper ftp;
+   private MailHelper mailHelper;
+   private JamesHelper jamesHelper;
+   private AuthorizationHelper authorizationHelper;
+   private UsersHelper usersHelper;
+   private DbHelper dbHelper;
 
 
    public ApplicationManager(String browser) {
@@ -30,26 +35,89 @@ public class ApplicationManager {
 
       String target = System.getProperty("target", "local");
       properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
-
-
-      if (browser.equals(BrowserType.FIREFOX)) {
-         System.setProperty("webdriver.gecko.driver", "geckodriver");
-         wd = new FirefoxDriver();
-      } else if (browser.equals(BrowserType.CHROME)) {
-         System.setProperty("webdriver.chrome.driver", "chromedriver");
-         wd = new ChromeDriver();
-      } else if (browser.equals(BrowserType.IE)) {
-         System.setProperty("webdriver.ie.driver", "IEDriverServer.exe");
-         wd = new InternetExplorerDriver();
-      }
-
-
-      wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-      wd.get(properties.getProperty("web.baseUrl"));
    }
 
-
    public void stop() {
-      wd.quit();
+      if (wd != null) {
+         wd.quit();
+      }
+   }
+
+   public String getProperty(String key) {
+      return properties.getProperty(key);
+   }
+
+   public HttpSession newSession() {
+      return new HttpSession(this);
+
+   }
+
+   public MailHelper mail() {
+      if (mailHelper == null){
+         mailHelper = new MailHelper(this);
+      }
+      return mailHelper;
+   }
+
+   public FtpHelper ftp() {
+      if (ftp == null) {
+         ftp = new FtpHelper(this);
+      }
+      return ftp;
+   }
+
+   public JamesHelper james(){
+      if (jamesHelper == null) {
+         jamesHelper = new JamesHelper(this);
+      }
+      return jamesHelper;
+   }
+
+   public RegistrationHelper registration() {
+      if (registrationHelper == null) {
+         registrationHelper = new RegistrationHelper(this);
+      }
+      return registrationHelper;
+   }
+
+   public WebDriver getDriver() {
+      if (wd == null) {
+         if (browser.equals(BrowserType.FIREFOX)) {
+            System.setProperty("webdriver.gecko.driver", "geckodriver");
+            wd = new FirefoxDriver();
+         } else if (browser.equals(BrowserType.CHROME)) {
+            System.setProperty("webdriver.chrome.driver", "chromedriver");
+            wd = new ChromeDriver();
+         } else if (browser.equals(BrowserType.IE)) {
+            System.setProperty("webdriver.ie.driver", "IEDriverServer.exe");
+            wd = new InternetExplorerDriver();
+         }
+
+
+         wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+         wd.get(properties.getProperty("web.baseUrl"));
+      }
+      return wd;
+   }
+
+   public AuthorizationHelper authorization() {
+      if(authorizationHelper == null) {
+         authorizationHelper = new AuthorizationHelper(this);
+      }
+      return authorizationHelper;
+   }
+
+   public UsersHelper users() {
+      if (usersHelper == null) {
+         usersHelper = new UsersHelper(this);
+      }
+      return usersHelper;
+   }
+
+   public DbHelper db() {
+      if (dbHelper == null) {
+         dbHelper = new DbHelper();
+      }
+      return dbHelper;
    }
 }
